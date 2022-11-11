@@ -22,5 +22,5 @@ class Address:
                     )
         value = search(r"\d{5}\ \м.\w+\ \в.\w+(\d+|\D+)+", clean_address)
         if not value:
-            raise ValueError(f"Phone number {clean_address} is not valid")
+            raise ValueError(f"Invalide address format {clean_address}. Address format should be IIII, м.Місто, в.Вулиця, дод.записи")
         return str(value)
