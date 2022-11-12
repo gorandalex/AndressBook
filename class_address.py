@@ -1,7 +1,7 @@
 from re import search
+from Field import Field
 
-
-class Address:
+class Address(Field):
     def __init__(self, value):
         super().__init__(value)
         self.value = value
