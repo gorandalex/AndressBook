@@ -1,4 +1,7 @@
-class Phone():
+import Field
+import re
+
+class Phone(Field):
 
     def __init__(self, value):
         self.__value = None
@@ -16,7 +19,8 @@ class Phone():
         self.__value = value
 
 
-class Email():
+class Email(Field):
+    
     def __init__(self, value):
         self.__value = None
         self.value = value
@@ -27,4 +31,10 @@ class Email():
     
     @value.setter
     def value(self, value:str):
+        regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
+        if not (re.fullmatch(regex, value)):
+            raise ValueError(""""Email {value} is not valid,
+            please enter correct email.
+            Example of emails: my.ownsite@our-earth.org
+                                ankitrai326@gmail.com""")
         self.__value = value
