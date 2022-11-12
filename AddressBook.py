@@ -308,21 +308,3 @@ class Record():
             if address.value == delete_address:
                 self.address.remove(address)
                 return True   
-
-
-ab = AddressBook()
-ab.add_note('Покупки', 'Помидор, огурец, капустка', 'еда')
-print(ab.notes)
-ab.add_desc_to_note('Покупки', 'Помидор, огурец')
-print(ab.notes)
-ab.add_tag_to_note('Покупки', 'семья дом')
-print(ab.notes)
-
-ab.add_note('Покупки2', 'картошка, банан, черешня', 'еда')
-print(ab.notes)
-ab.add_desc_to_note('Покупки2', 'Помидор, огурец')
-print(ab.notes)
-ab.add_tag_to_note('Покупки2', 'рынок дом авто')
-print(ab.notes)
-ab.sort_notes_by_tags()
-print(ab.notes)
