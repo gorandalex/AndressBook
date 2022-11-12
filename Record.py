@@ -63,7 +63,7 @@ class Record():
                 self.address.remove(address)
                 return True
 
-    def delete(self, delete_address):
+    def delete_address(self, delete_address):
         for address in self.address:
             if address.value == delete_address:
                 self.address.remove(address)
