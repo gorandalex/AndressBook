@@ -6,15 +6,12 @@ from class_address import Address
 
 
 class Record():
-    def __init__(self, name, phone = None):
+    def __init__(self, name, phone = None, email=None, birthday=None, address=None):
         self.name = Name(name)
-
-        if phone:
-            self.phones = [Phone(phone)]
-        else:
-            self.phones = []
-
-       
+        self.phones = [Phone(phone)] if phone else []
+        self.email = Email(email) if email else ''
+        self.birthday = Birthday(birthday) if birthday else ''
+        self.address = Address(address) if address else ''
 
     def add_phone(self, phone):
         self.phones.append(Phone(phone))
