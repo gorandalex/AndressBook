@@ -1,6 +1,5 @@
-import Field
+from Field import Field
 
-
-class Notes(Field):
+class Note(Field):
     
     pass
