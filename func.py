@@ -220,8 +220,39 @@ quit"""
 
 addressbook = AddressBook()
 
+@corrector
+def answer_exit():
+    return 'Good bye!'
+
+@corrector
+def command_error():
+    return 'Wrong command, please try again.'
+
+def get_answer_function(answer):
+    return COMMANDS.get(answer, command_error)
+
+@corrector
+def run_command(user_command):
+    command = user_command
+    params = ''
+    for key in COMMANDS:
+        if user_command.lower().startswith(key):
+            command = key
+            params = user_command[len(command):]
+            break
+    if params:
+        return get_answer_function(command)(params.strip())
+    else:
+        return get_answer_function(command)()
+
+
 def main():
-    pass
+    while True:
+        user_command = input('Введіть команду для бота: ')
+        answer = run_command(user_command.strip())
+        print(answer)
+        if answer == 'Good bye!':
+            break
 
 if __name__ == '__main__':
     main()
