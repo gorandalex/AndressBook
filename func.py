@@ -1,72 +1,4 @@
-<<<<<<< HEAD
-"""replace_phone / name / old_phone/ new_phone
-replace_email / name /old_email/ new_email
-replace_birthday / name /old_birthday/ new_birthday
-replace_address / name /old_addres/ addres
-delete_phone / name / old_phone
-delete_email / name /old_email"""
-
-def replace_phone(data):
-    data = data.strip().split()
-    name = data[0]
-    old_phone = data[1]
-    new_phone = data[2]
-    record = ADDRESSBOOK.data[name]
-    record.change_phone(old_phone, new_phone)
-    return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
-
-
-def replace_email(data):
-    data = data.strip().split()
-    name = data[0]
-    old_email = data[1]
-    new_email = data[2]
-    record = ADDRESSBOOK.data[name]
-    record.change_email(old_email, new_email)
-    return f'In contact {name} successfully changed email {old_email} to {new_email}'
-
-
-def replace_birthday(data):
-    data = data.strip().split()
-    name = data[0]
-    old_birthday = data[1]
-    new_birthday = data[2]
-    record = ADDRESSBOOK.data[name]
-    record.change_phone(old_birthday, new_birthday)
-    return f'In contact {name} successfully changed birth date {old_birthday} to {new_birthday}'
-    
-
-def replace_address(data):
-    data = data.strip().split()
-    name = data[0]
-    old_address = data[1]
-    new_address = data[2]
-    record = ADDRESSBOOK.data[name]
-    record.change_address(old_address, new_address)
-    return f'In contact {name} successfully changed address {old_address} to {new_address}'
-    
-
-def delete_phone(data):
-    data = data.strip().split()
-    name = data[0]
-    old_phone = data[1]
-    record = ADDRESSBOOK.data[name]
-    record.delete_phone(old_phone)
-    return f'In contact {name} successfully deleted phone {old_phone}'
-
-
-def delete_email(data):
-    data = data.strip().split()
-    name = data[0]
-    old_email = data[1]
-    record = ADDRESSBOOK.data[name]
-    record.delete_email(old_email)
-    return f'In contact {name} successfully deleted email {old_email}'
-=======
-from AddressBook import AddressBook
-from class_address import Address
-from class_birthday import Birthday
-from Record import Record
+from AddressBook import AddressBook, Record, Address, Birthday
 
 
 def corrector(handler):
@@ -132,6 +64,8 @@ def add_address(data):
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].address))}"
+# add_address / (data) Maria 080282 м.Київ, в.Гончара
+
 
 def create_data(data):
     name = data[0]
@@ -169,5 +103,125 @@ def create_address(data):
         raise ValueError('Wrong address')
     return name, address
 
+
+def replace_phone(data):
+    data = data.strip().split()
+    name = data[0]
+    old_phone = data[1]
+    new_phone = data[2]
+    record = addressbook.data[name]
+    record.change_phone(old_phone, new_phone)
+    return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
+
+# replace_phone Yaroslav 050 060
+
+def replace_email(data):
+    data = data.strip().split()
+    name = data[0]
+    old_email = data[1]
+    new_email = data[2]
+    record = addressbook.data[name]
+    record.change_email(old_email, new_email)
+    return f'In contact {name} successfully changed email {old_email} to {new_email}'
+
+
+def replace_birthday(data):
+    data = data.strip().split()
+    name = data[0]
+    old_birthday = data[1]
+    new_birthday = data[2]
+    record = addressbook.data[name]
+    record.change_phone(old_birthday, new_birthday)
+    return f'In contact {name} successfully changed birth date {old_birthday} to {new_birthday}'
+    
+
+def replace_address(data):
+    data = data.strip().split()
+    name = data[0]
+    old_address = data[1]
+    new_address = data[2]
+    record = addressbook.data[name]
+    record.change_address(old_address, new_address)
+    return f'In contact {name} successfully changed address {old_address} to {new_address}'
+    
+
+def delete_phone(data):
+    data = data.strip().split()
+    name = data[0]
+    old_phone = data[1]
+    record = addressbook.data[name]
+    record.delete_phone(old_phone)
+    return f'In contact {name} successfully deleted phone {old_phone}'
+
+
+def delete_email(data):
+    data = data.strip().split()
+    name = data[0]
+    old_email = data[1]
+    record = addressbook.data[name]
+    record.delete_email(old_email)
+    return f'In contact {name} successfully deleted email {old_email}'
+
+
+
+def create(data):
+    data = data.strip().split()
+    name = data[0]
+    return name
+
+def create_1(data):
+    data = data.strip().split()
+    name = data[0]
+    data_1 = data[1]
+    return name, data_1
+
+def create_2(data):
+    data = data.strip().split()
+    name = data[0]
+    data_1 = data[1]
+    data_2 = data[2]
+    return name, data_1, data_2
+
+def create_address(data):
+    data = data.strip().split()
+    name = data[0]
+    address = data[1:]
+    return name, address
+
+COMMANDS = """hello (print instructions)
+add / name / phone
+delete / name
+add_phone / name / new_phone
+add_email / name / new_email
+add_birthday / name / new_birthday
+add_addres / name / addres
+
+delete_birthday / name /old_birthday
+delete_addres / name /old_addres
+search_contact / name
+replace_desc_of_note
+search_note (by name)
+delete_note (by name)
+
+replace_phone / name / old_phone/ new_phone
+replace_email / name /old_email/ new_email
+replace_birthday / name /old_birthday/ new_birthday
+replace_addres / name /old_addres/ addres
+delete_phone / name / old_phone
+delete_email / name /old_email
+
+add_note / name_note | description(optional) | tags (optional)
+add_desc_to_note / name_note / description
+add_tag_to_note / name_note / tagsort_notes (by tags)
+search_note (by tags)
+sort_func
+quit"""
+
+
 addressbook = AddressBook()
->>>>>>> dev_maria
+
+def main():
+    pass
+
+if __name__ == '__main__':
+    main()

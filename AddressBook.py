@@ -57,12 +57,10 @@ class AddressBook(UserDict):
 class Record():
     def __init__(self, name, phone = None):
         self.name = Name(name)
-
-        if phone:
-            self.phones = [Phone(phone)]
-        else:
-            self.phones = []
-
+        self.phones = [Phone(phone)] if phone else []
+        self.email = ''
+        self.birthday = ''
+        self.address = ''
        
 
     def add_phone(self, phone):
