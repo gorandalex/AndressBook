@@ -90,6 +90,18 @@ class Record():
             if you want to change tis date try "change_email | new_email"
             """)
 
+    def change_email(self, old_email, new_email):
+        for email in self.email:
+            if email.value == old_email:
+                self.birthday.append(new_email)
+                self.birthday.remove(email)
+                return True
+
+    def delete_email(self, delete_email):
+        for email in self.email:
+            if email.value == delete_email:
+                self.birthday.remove(email)
+                return True
 
     def add_birthday(self, birthday):
         self.birthday.append(Birthday(birthday))

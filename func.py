@@ -21,9 +21,8 @@ def replace_email(data):
     old_email = data[1]
     new_email = data[2]
     record = ADDRESSBOOK.data[name]
-    record.change_phone(old_email, new_email)
-    pass
-    # return f'In contact {name} successfully changed email {old_email} to {new_email}'
+    record.change_email(old_email, new_email)
+    return f'In contact {name} successfully changed email {old_email} to {new_email}'
 
 
 def replace_birthday(data):
@@ -61,5 +60,4 @@ def delete_email(data):
     old_email = data[1]
     record = ADDRESSBOOK.data[name]
     record.delete_email(old_email)
-    # return f'In contact {name} successfully deleted email {old_email}'
-    pass
+    return f'In contact {name} successfully deleted email {old_email}'
