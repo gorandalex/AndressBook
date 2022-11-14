@@ -1,6 +1,7 @@
-from datetime import date
+from datetime import date, datetime
 from collections import UserDict
 from re import search, match
+import pickle
 
 class AddressBook(UserDict):
 
@@ -53,6 +54,30 @@ class AddressBook(UserDict):
         book_note = self.search_notes_by_name(note)
         if book_note:
             self.notes.remove(book_note)
+
+    def write_contacts_to_file(self):
+        with open('data_notebook.txt', 'wb') as file:
+            pickle.dump(self.data, file)
+
+    def read_contacts_from_file(self):
+        try:
+            with open('data_notebook.txt', 'rb') as file:
+                contacts_archive = pickle.load(file)
+                return contacts_archive
+        except FileNotFoundError:
+            pass
+
+    def find_records_by_text(self, text):
+        lst_records = []
+        for name, data in self.data.items():
+            if name.lower().find(text.lower()) != -1:
+                lst_records.append(self.data[name])
+            else:
+                for phone in data.phones:
+                    if phone.value.find(text) != -1:
+                        lst_records.append(data.name.value, phone.value, datetime.strftime(data.birthday.value, '%d.%m.%Y'))
+                        break
+        return lst_records
 
 class Record():
     def __init__(self, name, phone = None):
