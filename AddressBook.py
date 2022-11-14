@@ -10,28 +10,44 @@ class AddressBook(UserDict):
 
     def add_record(self, record):
         self.data[record.name.value] = record
+        return 'Record was added'
 
     def return_record_by_name(self, name):
         return self.data[name]
 
     def remove_record(self, record):
         del self.data[record.name.value]
+        return 'Record was deleted'
+
+    def search_contact(self, name):
+        if name in self.data:
+            record = self.data[name]
+            return f'{record}'
+        else:
+            return 'Contact not found'
+
 
     def add_note(self, note, description = None, tag = None):
-        self.notes.append(Note(note, description, tag.lower()))
+        self.notes.append(Note(note, description, tag.lower() if tag else ''))
 
-    def add_desc_to_note(self, note, description = None):
+    def add_desc_to_note(self, note):
         for book_note in self.notes:
-            if book_note.note == note:
+            if note.startswith(book_note.note):
+                description = note[len(book_note.note):].strip()
                 book_note.description = description
+                return 'description is added'
+        return 'Note not found'
 
-    def add_tag_to_note(self, note, tags):
+    def add_tag_to_note(self, note):
         for book_note in self.notes:
-            if book_note.note == note:
+            if note.startswith(book_note.note):
+                tags = note[len(book_note.note):].strip()
                 lst_tags = book_note.tags.split(',')
                 lst_tags.extend([tag for tag in tags.lower().split(' ')])
                 lst_tags.sort()
                 book_note.tags = ','.join(tag for tag in lst_tags if tag != '')
+                return 'Tags is added'
+        return 'Note not found'
 
     def search_notes_by_tags(self, tags):
         tags_answer = []
@@ -53,17 +69,31 @@ class AddressBook(UserDict):
         book_note = self.search_notes_by_name(note)
         if book_note:
             self.notes.remove(book_note)
+            return 'Note was removed'
+        else:
+            return 'Note not found'
+
+
 
 class Record():
     def __init__(self, name, phone = None):
         self.name = Name(name)
         self.phones = [Phone(phone)] if phone else []
-        self.email = ''
+        self.email = None
         self.birthday = ''
         self.address = ''
        
+    def __repr__(self) -> str:
+        phones = ', '.join([phone.value for phone in self.phones if not phone.value is None])
+        return f'{self.name} : phones {phones}, email: {self.email}, birthday: {self.birthday}, address: {self.address}'
 
     def add_phone(self, phone):
+        for rec_phone in self.phones:
+            if rec_phone.value == phone:
+                raise ValueError("""This contact {self.name} 
+                            already have phone : {phone}
+                            if you want to change tis date try "change_email | new_email"
+                            """)                
         self.phones.append(Phone(phone))
 
     def change_phone(self, old_phone, new_phone):
@@ -89,7 +119,7 @@ class Record():
             self.email = Email(email)
         else:
             raise ValueError("""This contact {self.name} 
-            already have date of birthday: {self.birthday}
+            already have date of email: {self.email}
             if you want to change tis date try "change_email | new_email"
             """)
 
@@ -145,6 +175,9 @@ class Field:
     def __init__(self, value):
         self.__value = None
         self.value = value
+
+    def __repr__(self) -> str:
+        return self.value
 
     @property
     def value(self):
@@ -207,12 +240,17 @@ class Birthday(Field):
 
 class Phone(Field):
 
+    def __repr__(self):
+        return self.value
+
+
     @Field.value.setter
     def value(self, value:str):
         if not all((value.startswith('+380'), len(value) == 13, value[1:].isdigit())):
             raise ValueError("""Phone number {value} is not valid, 
             please enter correcct phone '+380XXXXXXX'""")
         self.__value = value
+
 
 
 class Email(Field):
