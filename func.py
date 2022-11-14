@@ -80,6 +80,7 @@ def add_addresses(data):
 
 def replace_phone(data):
     name, old_phone, new_phone = create(data)
+    print(name, old_phone, new_phone)
     record = addressbook.data[name]
     record.change_phone(old_phone, new_phone)
     return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
@@ -125,9 +126,8 @@ def create(data):
     data = data.strip().split()
     lst_data = [data[0]]
     if len(data) > 1:
-        lst_data.append(' '.join(data[1:]))
-    else:
-        lst_data.append('')
+        for i in range(1, len(data)):
+            lst_data.append(''.join(data[i]))
 
     return tuple(lst_data)
 

@@ -109,10 +109,11 @@ class Record():
         self.phones.append(Phone(phone))
 
     def change_phone(self, old_phone, new_phone):
-        phone_obj = Phone(old_phone)    
-        if phone_obj in self.phones:
-            self.phones[self.phones.index(phone_obj)] = Phone(new_phone)
-            return True
+        for phone in self.phones:
+            if phone.value == old_phone:
+                self.phones.append(Phone(new_phone))
+                self.phones.remove(phone)
+                return True
 
     def delete_phone(self, phone):
         phone_obj = Phone(phone)    
