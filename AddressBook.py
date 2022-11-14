@@ -173,7 +173,7 @@ class Record():
 
 class Field:
     def __init__(self, value):
-        self.__value = None
+        self._value = None
         self.value = value
 
     def __repr__(self) -> str:
@@ -181,11 +181,11 @@ class Field:
 
     @property
     def value(self):
-        return self.__value
+        return self._value
 
     @value.setter
     def value(self, value):
-        self.__value = value
+        self._value = value
 
 class Address(Field):
     def __init__(self, value):
@@ -249,7 +249,7 @@ class Phone(Field):
         if not all((value.startswith('+380'), len(value) == 13, value[1:].isdigit())):
             raise ValueError("""Phone number {value} is not valid, 
             please enter correcct phone '+380XXXXXXX'""")
-        self.__value = value
+        self._value = value
 
 
 
@@ -263,7 +263,7 @@ class Email(Field):
             please enter correct email.
             Example of emails: my.ownsite@our-earth.org
                                 ankitrai326@gmail.com""")
-        self.__value = value
+        self._value = value
 
 class Name(Field):
     pass
