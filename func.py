@@ -58,7 +58,7 @@ def add_emails(data):
     name, email = create(data)
     record_add_emails = addressbook.data[name]
     record_add_emails.add_email(email)
-    return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].email))}"
+    return f"In contact {name} successfully add email {email}"
 
 @corrector
 def add_birthdays(data):
