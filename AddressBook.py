@@ -78,6 +78,11 @@ class Record():
             self.phone.remove(phone_obj)
             return True
     
+    def delete_name(self, name):
+        name_obj = Name(name)
+        if name_obj in AddressBook.data[name]:
+            AddressBook.data[name].remove(name_obj)
+
 
     def add_email(self, email):
         if self.email is None:

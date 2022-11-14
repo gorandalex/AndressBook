@@ -21,45 +21,43 @@ def hello():
 
 @corrector
 def add_new_contact(data):
-    name, phone = create_data(data)
+    name = create(data)
     record_add = Record(name.lower())
-    record_add.add(phone)
     addressbook.add_record(record_add)
-    return f'New contact {name} : {phone}'
+    return f'New contact {name}'
 
 @corrector
 def delete(data):
-    name, phone = create_data(data)
+    name = create(data)
     record_delete = addressbook.data[name]
-
-    if record_delete.delete_phone(phone) is True:
-        return f'{name} : {phone} has been deleted'
+    if record_delete.delete_name(name) is True:
+        return f'{name} has been deleted'
     else:
         return 'The phone number not exist'
 
 @corrector
 def add_phones(data):
-    name, phone = create_data(data)
+    name, data_1 = create_1(data)
     record_add_phones = addressbook.data[name]
-    record_add_phones.add_phone(phone)
+    record_add_phones.add_phone(data_1)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].phones))}"
 
 @corrector
 def add_emails(data):
-    name, email = create_email(data)
+    name, data_1 = create_1(data)
     record_add_emails = addressbook.data[name]
-    record_add_emails.add_email(email)
+    record_add_emails.add_email(data_1)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].email))}"
 
 @corrector
 def add_birthdays(data):
-    name, birthday = create_birthday(data)
+    name, data_1 = create_1(data)
     record_add_birthdays = addressbook.data[name]
-    record_add_birthdays.add_birthday(birthday)
+    record_add_birthdays.add_birthday(data_1)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].birthday))}"
 
 @corrector
-def add_address(data):
+def add_addresses(data):
     name, address = create_address(data)
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
@@ -188,35 +186,35 @@ def create_address(data):
     address = data[1:]
     return name, address
 
-COMMANDS = """hello (print instructions)
-add / name / phone
-delete / name
-add_phone / name / new_phone
-add_email / name / new_email
-add_birthday / name / new_birthday
-add_addres / name / addres
-
-delete_birthday / name /old_birthday
-delete_addres / name /old_addres
-search_contact / name
-replace_desc_of_note
-search_note (by name)
-delete_note (by name)
-
-replace_phone / name / old_phone/ new_phone
-replace_email / name /old_email/ new_email
-replace_birthday / name /old_birthday/ new_birthday
-replace_addres / name /old_addres/ addres
-delete_phone / name / old_phone
-delete_email / name /old_email
-
-add_note / name_note | description(optional) | tags (optional)
-add_desc_to_note / name_note / description
-add_tag_to_note / name_note / tagsort_notes (by tags)
-search_note (by tags)
-sort_func
-quit"""
-
+COMMANDS = {
+    'hello': hello,
+    'add_name': add_new_contact,
+    'add_phone': add_phones,
+    'delete': delete,
+    'add_email': add_emails,
+    'add_birthday': add_birthdays,
+    'add_addres': add_addresses,
+    'delete_birthday':
+    'delete_addres':,
+    'search_contact':
+    'replace_desc_of_note':
+    'search_note': addressbook.search_notes_by_tags
+    'delete_note': addressbook.remove_note
+    'replace_phone': replace_phone,
+    'replace_email': replace_email,
+    'replace_birthday': replace_birthday,
+    'replace_addres': replace_address,
+    'delete_phone': delete_phone,
+    'delete_email': delete_email,
+    'add_note': addressbook.add_note,
+    'add_desc_to_note': addressbook.add_desc_to_note,
+    'add_tag_to_note': addressbook.add_tag_to_note,
+    'search_note_by_tags': addressbook.search_notes_by_tags,
+    'search_notes_by_name': addressbook.search_notes_by_name,
+    'delete_note': addressbook.remove_note,
+    'sort_func': sort_funk.sorting,
+    'close': 
+}
 
 addressbook = AddressBook()
 
