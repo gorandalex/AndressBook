@@ -1,5 +1,7 @@
 from AddressBook import AddressBook, Record, Address, Birthday
+from sort_func import sorting
 
+addressbook = AddressBook()
 
 def corrector(handler):
     def wrapper(*args, **kwargs):
@@ -21,14 +23,19 @@ def hello():
 
 @corrector
 def add_new_contact(data):
-    name = create(data)
-    record_add = Record(name.lower())
-    addressbook.add_record(record_add)
-    return f'New contact {name}'
+    name, phone = create(data)
+    if name in addressbook:
+        record = addressbook.data[name]
+        record.add_phone(phone)
+        return f'Update contact {name}'
+    else:
+        record_add = Record(name, phone)
+        addressbook.add_record(record_add)
+        return f'New contact {name}'
 
 @corrector
 def delete(data):
-    name = create(data)
+    name = create(data)[0]
     record_delete = addressbook.data[name]
     if record_delete.delete_name(name) is True:
         return f'{name} has been deleted'
@@ -37,28 +44,32 @@ def delete(data):
 
 @corrector
 def add_phones(data):
-    name, phone = create_1(data)
-    record_add_phones = addressbook.data[name]
-    record_add_phones.add_phone(phone)
+    name, phone = create(data)
+    if name in addressbook:
+        record_add_phones = addressbook.data[name]
+        record_add_phones.add_phone(phone)
+    else:
+        record_add_phones = Record(name, phone)
+        addressbook.add_record(record_add_phones)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].phones))}"
 
 @corrector
 def add_emails(data):
-    name, email = create_1(data)
+    name, email = create(data)
     record_add_emails = addressbook.data[name]
     record_add_emails.add_email(email)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].email))}"
 
 @corrector
 def add_birthdays(data):
-    name, birthday = create_1(data)
+    name, birthday = create(data)
     record_add_birthdays = addressbook.data[name]
     record_add_birthdays.add_birthday(birthday)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].birthday))}"
 
 @corrector
 def add_addresses(data):
-    name, address = create_address(data)
+    name, address = create(data)
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].address))}"
@@ -129,59 +140,13 @@ def delete_email(data):
 
 def create(data):
     data = data.strip().split()
-    name = data[0]
-    return name
+    lst_data = [data[0]]
+    if len(data) > 1:
+        lst_data.append(' '.join(data[1:]))
+    else:
+        lst_data.append('')
 
-def create_1(data):
-    data = data.strip().split()
-    name = data[0]
-    data_1 = data[1]
-    return name, data_1
-
-def create_2(data):
-    data = data.strip().split()
-    name = data[0]
-    data_1 = data[1]
-    data_2 = data[2]
-    return name, data_1, data_2
-
-def create_address(data):
-    data = data.strip().split()
-    name = data[0]
-    address = data[1:]
-    return name, address
-
-COMMANDS = {
-    'hello': hello,
-    'add_name': add_new_contact,
-    'add_phone': add_phones,
-    'delete': delete,
-    'add_email': add_emails,
-    'add_birthday': add_birthdays,
-    'add_addres': add_addresses,
-    'delete_birthday':
-    'delete_addres':,
-    'search_contact':
-    'replace_desc_of_note':
-    'search_note': addressbook.search_notes_by_tags
-    'delete_note': addressbook.remove_note
-    'replace_phone': replace_phone,
-    'replace_email': replace_email,
-    'replace_birthday': replace_birthday,
-    'replace_addres': replace_address,
-    'delete_phone': delete_phone,
-    'delete_email': delete_email,
-    'add_note': addressbook.add_note,
-    'add_desc_to_note': addressbook.add_desc_to_note,
-    'add_tag_to_note': addressbook.add_tag_to_note,
-    'search_note_by_tags': addressbook.search_notes_by_tags,
-    'search_notes_by_name': addressbook.search_notes_by_name,
-    'delete_note': addressbook.remove_note,
-    'sort_func': sort_funk.sorting,
-    'close': 
-}
-
-addressbook = AddressBook()
+    return tuple(lst_data)
 
 @corrector
 def answer_exit():
@@ -193,6 +158,37 @@ def command_error():
 
 def get_answer_function(answer):
     return COMMANDS.get(answer, command_error)
+
+
+COMMANDS = {
+    'hello': hello,
+    'add_name': add_new_contact,
+    'add_phone': add_phones,
+    'delete': delete,
+    'add_email': add_emails,
+    'add_birthday': add_birthdays,
+    'add_addres': add_addresses,
+    # 'delete_birthday': command_error,
+    # 'delete_addres': command_error,
+    'search_contact': addressbook.search_contact,
+    'add_note': addressbook.add_note,
+    'add_desc_to_note': addressbook.add_desc_to_note,
+    'replace_desc_of_note': addressbook.add_desc_to_note,
+    'search_notes_by_name': addressbook.search_notes_by_name,
+    'add_tag_to_note': addressbook.add_tag_to_note,
+    'search_note_by_tags': addressbook.search_notes_by_tags,
+    'delete_note': addressbook.remove_note,
+    'replace_phone': replace_phone,
+    'replace_email': replace_email,
+    'replace_birthday': replace_birthday,
+    'replace_addres': replace_address,
+    'delete_phone': delete_phone,
+    'delete_email': delete_email,
+    'sort_func': sorting,
+    'close': answer_exit 
+}
+
+
 
 @corrector
 def run_command(user_command):
