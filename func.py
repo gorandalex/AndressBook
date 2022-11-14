@@ -37,23 +37,23 @@ def delete(data):
 
 @corrector
 def add_phones(data):
-    name, data_1 = create_1(data)
+    name, phone = create_1(data)
     record_add_phones = addressbook.data[name]
-    record_add_phones.add_phone(data_1)
+    record_add_phones.add_phone(phone)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].phones))}"
 
 @corrector
 def add_emails(data):
-    name, data_1 = create_1(data)
+    name, email = create_1(data)
     record_add_emails = addressbook.data[name]
-    record_add_emails.add_email(data_1)
+    record_add_emails.add_email(email)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].email))}"
 
 @corrector
 def add_birthdays(data):
-    name, data_1 = create_1(data)
+    name, birthday = create_1(data)
     record_add_birthdays = addressbook.data[name]
-    record_add_birthdays.add_birthday(data_1)
+    record_add_birthdays.add_birthday(birthday)
     return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].birthday))}"
 
 @corrector
@@ -65,41 +65,6 @@ def add_addresses(data):
 # add_address / (data) Maria 080282 м.Київ, в.Гончара
 
 
-def create_data(data):
-    name = data[0]
-    phone = data[1]
-    if name.isnumeric():
-        raise ValueError('Wrong name')
-    if not phone.isnumeric():
-        raise ValueError('Wrong phone')
-    return name, phone
-
-def create_email(data):
-    name = data[0]
-    email = data[1]
-    if name.isnumeric():
-        raise ValueError('Wrong name')
-    if not email.isnumeric():
-        raise ValueError('Wrong email')
-    return name, email
-
-def create_birthday(data):
-    name = data[0]
-    birthday = data[1]
-    if name.isnumeric():
-        raise ValueError('Wrong name')
-    if not birthday.isnumeric():
-        raise ValueError('Wrong birthday')
-    return name, birthday
-
-def create_address(data):
-    name = data[0]
-    address = data[1]
-    if name.isnumeric():
-        raise ValueError('Wrong name')
-    if not address.isnumeric():
-        raise ValueError('Wrong address')
-    return name, address
 
 
 def replace_phone(data):
