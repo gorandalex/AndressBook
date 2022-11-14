@@ -1,6 +1,7 @@
 from datetime import date
 from collections import UserDict
 from re import search, match
+import pickle
 
 class AddressBook(UserDict):
 
@@ -73,6 +74,17 @@ class AddressBook(UserDict):
         else:
             return 'Note not found'
 
+    def write_contacts_to_file(self):
+        with open('data_notebook.txt', 'wb') as file:
+            pickle.dump(self.data, file)
+
+    def read_contacts_from_file(self):
+        try:
+            with open('data_notebook.txt', 'rb') as file:
+                contacts_archive = pickle.load(file)
+                return contacts_archive
+        except FileNotFoundError:
+            pass
 
 
 class Record():
