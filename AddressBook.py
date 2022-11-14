@@ -86,6 +86,10 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             pass
 
+    def delete_name(self, name):  
+        if name in AddressBook:
+            AddressBook.remove(name)
+            return True
 
 class Record():
     def __init__(self, name, phone = None):
@@ -121,10 +125,7 @@ class Record():
             self.phone.remove(phone_obj)
             return True
     
-    def delete_name(self, name):
-        name_obj = Name(name)
-        if name_obj in AddressBook.data[name]:
-            AddressBook.data[name].remove(name_obj)
+    
 
 
     def add_email(self, email):
@@ -147,7 +148,13 @@ class Record():
             return True
 
     def add_birthday(self, birthday):
-        self.birthday.append(Birthday(birthday))
+        if self.birthday is None:
+            self.birthday = Birthday(birthday)
+        else:
+            raise ValueError("""This contact {self.name} 
+            already have date of birthday: {self.birthday}
+            if you want to change tis date try "change_birthday | new_birthday"
+            """)
 
     def change_birthday(self, old_birthday, new_birthday):
         for birthday in self.birthday:
@@ -166,7 +173,13 @@ class Record():
 
 
     def add_address(self, address):
-        self.address.append(Address(address))
+        if self.address is None:
+            self.address = Address(address)
+        else:
+            raise ValueError("""This contact {self.name} 
+            already have date of address: {self.address}
+            if you want to change tis date try "change_address | new_address"
+            """)
 
     def change_address(self, old_address, new_address):
         for address in self.address:

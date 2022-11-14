@@ -23,21 +23,15 @@ def hello():
 
 @corrector
 def add_new_contact(data):
-    name, phone = create(data)
-    if name in addressbook:
-        record = addressbook.data[name]
-        record.add_phone(phone)
-        return f'Update contact {name}'
-    else:
-        record_add = Record(name, phone)
-        addressbook.add_record(record_add)
-        return f'New contact {name}'
+    name = create(data)[0]
+    record_add = Record(name.lower())
+    addressbook.add_record(record_add)
+    return f'New contact {name}'
 
 @corrector
 def delete(data):
     name = create(data)[0]
-    record_delete = addressbook.data[name]
-    if record_delete.delete_name(name) is True:
+    if addressbook.delete_name(name) is True:
         return f'{name} has been deleted'
     else:
         return 'The phone number not exist'
@@ -65,14 +59,13 @@ def add_birthdays(data):
     name, birthday = create(data)
     record_add_birthdays = addressbook.data[name]
     record_add_birthdays.add_birthday(birthday)
-    return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].birthday))}"
-
+    return f"In contact {name} successfully add birthday {birthday}"
 @corrector
 def add_addresses(data):
-    name, address = create(data)
+    name, address = create(data)[1]
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
-    return f"{addressbook.data[name].name.value} : {list(map(lambda x: x.value, addressbook.data[name].address))}"
+    return f"In contact {name} successfully add birthday {address}"
 # add_address / (data) Maria 080282 м.Київ, в.Гончара
 
 
