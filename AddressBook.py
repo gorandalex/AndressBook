@@ -92,8 +92,8 @@ class Record():
         self.name = Name(name)
         self.phones = [Phone(phone)] if phone else []
         self.email = None
-        self.birthday = ''
-        self.address = ''
+        self.birthday = None
+        self.address = None
        
     def __repr__(self) -> str:
         phones = ', '.join([phone.value for phone in self.phones if not phone.value is None])
