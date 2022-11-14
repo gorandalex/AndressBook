@@ -3,8 +3,9 @@ from pathlib import Path
 import sys
 import os
 
-def sorting():
-    dir = sys.argv[1]
+def sorting(dir=None):
+    if dir is None:
+        dir = sys.argv[1]
     images_path = dir + "images"
     videos_path = dir + "videos"
     docs_path = dir + "docs"
