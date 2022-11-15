@@ -92,8 +92,8 @@ class AddressBook(UserDict):
             pass
 
     def delete_name(self, name):  
-        if name in AddressBook.values:
-            AddressBook.remove(name)
+        if name in self.data:
+            del self.data[name]
             return True
 
 class Record():
@@ -152,18 +152,16 @@ class Record():
     #         self.email = Email(new_email)
     #         return True
 
-    def delete_email(self, delete_email):
+    def delete_email(self):
         self.email = None
         return True
 
     def add_birthday(self, birthday):
-        if self.birthday is None:
+        if birthday:
             self.birthday = Birthday(birthday)
+            return 'Birthday {self.name.value} is changed'
         else:
-            raise ValueError("""This contact {self.name} 
-            already have date of birthday: {self.birthday}
-            if you want to change tis date try "change_birthday | new_birthday"
-            """)
+            raise('Enter a birthday')
 
     # def change_birthday(self, old_birthday, new_birthday):
     #     for birthday in self.birthday:
@@ -172,9 +170,9 @@ class Record():
     #             self.birthday.remove(birthday)
     #             return True
 
-    # def delete_birthday(self, delete_birthday):
-    #     self.birthday = ''
-    #     return True
+    def delete_birthday(self):
+        self.birthday = None
+        return True
 
 
 
@@ -195,11 +193,9 @@ class Record():
     #             self.address.remove(address)
     #             return True
 
-    def delete_address(self, delete_address):
-        for address in self.address:
-            if address.value == delete_address:
-                self.address.remove(address)
-                return True   
+    def delete_address(self):
+        self.address == ''
+        return True   
 
 class Field:
     def __init__(self, value):
@@ -221,7 +217,7 @@ class Address(Field):
 
     @Field.value.setter
     def value(self, value):
-        self.value = self.check_address(value)
+        self._value = self.check_address(value)
 
     @staticmethod
     def check_address(value):
@@ -233,8 +229,8 @@ class Address(Field):
                         .replace(" ", "")
                         .replace(",", " ")
                     )
-        value = search(r"\d{5}\ \м.\w+\ \в.\w+(\d+|\D+)+", clean_address)
-        if not value:
+        match_value = search(r"\d{5}\ \м.\w+\ \в.\w+(\d+|\D+)+", clean_address)
+        if not match_value:
             raise ValueError(f"Invalide address format {clean_address}. Address format should be IIII, м.Місто, в.Вулиця, дод.записи")
         return str(value)
 
@@ -299,5 +295,5 @@ class Note:
         self.tags = ','.join((tag for tag in tags.split(' '))) if tags else ''
 
     def __repr__(self) -> str:
-        return f'{self._note}: {self.description} ({self.tags})'
+        return f'{self.note}: {self.description} ({self.tags})'
           

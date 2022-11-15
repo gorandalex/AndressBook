@@ -66,7 +66,7 @@ def add_addresses(data):
     name, address = create(data)
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
-    return f"In contact {name} successfully add birthday {address}"
+    return f"In contact {name} successfully add adress {address}"
 # add_address / (data) Maria 08021 м.Київ, в.Гончара, add_address maria 65125 м.Одеса, в.Вільямса
 
 
@@ -114,6 +114,11 @@ def delete_email(data):
     record.delete_email()
     return f'In contact {name} successfully deleted email '
 
+def delete_birthday(data):
+    name, *_ = create(data)
+    record = addressbook.data[name]
+    record.delete_birthday()
+    return f'In contact {name} successfully deleted birthday '
 
 
 def create(data):
@@ -144,11 +149,11 @@ COMMANDS = {
     'hello': hello,
     'add_name': add_new_contact,
     'add_phone': add_phones,
-    'delete_phone': delete,
+    'delete': delete,
     'add_email': add_emails,
     'add_birthday': add_birthdays,
-    'add_addres': add_addresses,
-    # 'delete_birthday': command_error,
+    'add_address': add_addresses,
+    'delete_birthday': delete_birthday,
     # 'delete_addres': command_error,
     'search_contact': addressbook.search_contact,
     'add_note': addressbook.add_note,
