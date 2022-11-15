@@ -127,8 +127,7 @@ def create(data):
     data = data.strip().split()
     lst_data = [data[0]]
     if len(data) > 1:
-        for i in range(1, len(data)):
-            lst_data.append(''.join(data[i]))
+        lst_data.append(' '.join(data[1:]))
 
     return tuple(lst_data)
 
