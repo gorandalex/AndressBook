@@ -28,19 +28,19 @@ def sorting(dir=None):
     
     for file in os.listdir(dir):
         file_path = os.path.join(dir, file)
-        if file_path.endswith( '.jpg') or file_path.endswith( '.png') or file_path.endswith( '.png') or file_path.endswith( '.svg') or file_path.endswith( '.jfif') or file_path.endswith( '.gif'):
+        if file_path.endswith(('.jpg', '.png', '.png', '.svg', '.jfif', '.gif')):
             new_file = os.path.join(images_path, file)
             os.replace(file_path, new_file)
-        elif file_path.endswith( '.avi') or file_path.endswith( '.mp4') or file_path.endswith( '.mov') or file_path.endswith( '.mkv'):
+        elif file_path.endswith(('.avi', '.mp4', '.mov', '.mkv')):
             new_file = os.path.join(videos_path, file)
             os.replace(file_path, new_file)
-        elif file_path.endswith( '.doc') or file_path.endswith( '.docx') or file_path.endswith( '.txt') or file_path.endswith( '.pdf') or file_path.endswith( '.xlxs') or file_path.endswith( '.pptx'):
+        elif file_path.endswith(('.doc', '.docx', '.txt', '.pdf', '.xlxs', '.pptx')):
             new_file = os.path.join(docs_path, file)
             os.replace(file_path, new_file)
-        elif file_path.endswith( '.mp3') or file_path.endswith( '.ogg') or file_path.endswith( '.wav') or file_path.endswith( '.amr'):
+        elif file_path.endswith(('.mp3', '.ogg', '.wav', '.amr')):
             new_file = os.path.join(musics_path, file)
             os.replace(file_path, new_file)
-        elif file_path.endswith( '.zip') or file_path.endswith( '.gz') or file_path.endswith( '.tar'):
+        elif file_path.endswith(('.zip', '.gz', '.tar')):
             new_file = os.path.join(zips_path, file)
             os.replace(file_path, new_file)
         elif os.path.isfile(dir + file):

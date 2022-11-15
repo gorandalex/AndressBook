@@ -36,7 +36,7 @@ def add_new_contact(data):
 
 @corrector
 def delete(data):
-    name = create(data)[0]
+    name, *_ = create(data)
     record_delete = addressbook.data[name]
     if record_delete.delete_name(name) is True:
         return f'{name} has been deleted'
@@ -79,33 +79,33 @@ def add_addresses(data):
 
 
 
-def replace_phone(data):
-    name, old_phone, new_phone = create(data)
-    print(name, old_phone, new_phone)
-    record = addressbook.data[name]
-    record.change_phone(old_phone, new_phone)
-    return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
+# def replace_phone(data):
+#     name, old_phone, new_phone = create(data)
+#     print(name, old_phone, new_phone)
+#     record = addressbook.data[name]
+#     record.change_phone(old_phone, new_phone)
+#     return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
 
 
-def replace_email(data):
-    name, old_email, new_email = create(data)
-    record = addressbook.data[name]
-    record.change_email(old_email, new_email)
-    return f'In contact {name} successfully changed email {old_email} to {new_email}'
+# def replace_email(data):
+#     name, old_email, new_email = create(data)
+#     record = addressbook.data[name]
+#     record.change_email(old_email, new_email)
+#     return f'In contact {name} successfully changed email {old_email} to {new_email}'
 
 
-def replace_birthday(data):
-    name, old_birthday, new_birthday = create(data)
-    record = addressbook.data[name]
-    record.change_phone(old_birthday, new_birthday)
-    return f'In contact {name} successfully changed birth date {old_birthday} to {new_birthday}'
+# def replace_birthday(data):
+#     name, old_birthday, new_birthday = create(data)
+#     record = addressbook.data[name]
+#     record.change_phone(old_birthday, new_birthday)
+#     return f'In contact {name} successfully changed birth date {old_birthday} to {new_birthday}'
     
 
-def replace_address(data):
-    name, old_address, new_address = create(data)
-    record = addressbook.data[name]
-    record.change_address(old_address, new_address)
-    return f'In contact {name} successfully changed address {old_address} to {new_address}'
+# def replace_address(data):
+#     name, old_address, new_address = create(data)
+#     record = addressbook.data[name]
+#     record.change_address(old_address, new_address)
+#     return f'In contact {name} successfully changed address {old_address} to {new_address}'
     
 
 def delete_phone(data):
@@ -164,10 +164,10 @@ COMMANDS = {
     'add_tag_to_note': addressbook.add_tag_to_note,
     'search_note_by_tags': addressbook.search_notes_by_tags,
     'delete_note': addressbook.remove_note,
-    'replace_phone': replace_phone,
-    'replace_email': replace_email,
-    'replace_birthday': replace_birthday,
-    'replace_addres': replace_address,
+    # 'replace_phone': replace_phone,
+    # 'replace_email': replace_email,
+    # 'replace_birthday': replace_birthday,
+    # 'replace_addres': replace_address,
     'delete_phone': delete_phone,
     'delete_email': delete_email,
     'sort_func': sorting,

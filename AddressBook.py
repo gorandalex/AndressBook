@@ -34,21 +34,23 @@ class AddressBook(UserDict):
 
     def add_desc_to_note(self, note):
         for book_note in self.notes:
-            if note.startswith(book_note.note):
-                description = note[len(book_note.note):].strip()
-                book_note.description = description
-                return 'description is added'
+            if not note.startswith(book_note.note):
+                continue
+            description = note[len(book_note.note):].strip()
+            book_note.description = description
+            return 'description is added'
         return 'Note not found'
 
     def add_tag_to_note(self, note):
         for book_note in self.notes:
-            if note.startswith(book_note.note):
-                tags = note[len(book_note.note):].strip()
-                lst_tags = book_note.tags.split(',')
-                lst_tags.extend([tag.strip() for tag in tags.lower().split(',')])
-                lst_tags.sort()
-                book_note.tags = ','.join(tag for tag in lst_tags if tag != '')
-                return 'Tags is added'
+            if not note.startswith(book_note.note):
+                continue
+            tags = note[len(book_note.note):].strip()
+            lst_tags = book_note.tags.split(',')
+            lst_tags.extend([tag.strip() for tag in tags.lower().split(',')])
+            lst_tags.sort()
+            book_note.tags = ','.join(tag for tag in lst_tags if tag != '')
+            return 'Tags is added'
         return 'Note not found'
 
     def search_notes_by_tags(self, tags):
@@ -111,12 +113,12 @@ class Record():
                             """)                
         self.phones.append(Phone(phone))
 
-    def change_phone(self, old_phone, new_phone):
-        for phone in self.phones:
-            if phone.value == old_phone:
-                self.phones.append(Phone(new_phone))
-                self.phones.remove(phone)
-                return True
+    # def change_phone(self, old_phone, new_phone):
+    #     for phone in self.phones:
+    #         if phone.value == old_phone:
+    #             self.phones.append(Phone(new_phone))
+    #             self.phones.remove(phone)
+    #             return True
 
     def delete_phone(self, phone):
         phone_obj = Phone(phone)    
@@ -201,9 +203,6 @@ class Field:
         self._value = value
 
 class Address(Field):
-    def __init__(self, value):
-        super().__init__(value)
-        self.value = value
 
     @Field.value.setter
     def value(self, value):
@@ -225,9 +224,6 @@ class Address(Field):
         return str(value)
 
 class Birthday(Field):
-    def __init__(self, value):
-        super().__init__(value)
-        self.value = value
 
     @Field.value.setter
     def value(self, value):
@@ -283,22 +279,10 @@ class Name(Field):
 
 class Note:
     def __init__(self, note, description = '', tags= ''):
-        self._note = None
         self.note = note
         self.description = description if description else ''
-        if tags:
-            self.tags = ','.join((tag for tag in tags.split(' ')))
-        else:
-            self.tags = ''
-
-    @property
-    def note(self):
-        return self._note        
-
-    @note.setter
-    def note(self, note):
-        self._note = note
-
+        self.tags = ','.join((tag for tag in tags.split(' '))) if tags else ''
+        
     def __repr__(self) -> str:
         return f'{self._note}: {self.description} ({self.tags})'
           
