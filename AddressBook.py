@@ -30,6 +30,7 @@ class AddressBook(UserDict):
 
     def add_note(self, note, description = None, tag = None):
         self.notes.append(Note(note, description, tag.lower() if tag else ''))
+        return f'Note "{note}" was create'
 
     def add_desc_to_note(self, note):
         for book_note in self.notes:
@@ -44,7 +45,7 @@ class AddressBook(UserDict):
             if note.startswith(book_note.note):
                 tags = note[len(book_note.note):].strip()
                 lst_tags = book_note.tags.split(',')
-                lst_tags.extend([tag for tag in tags.lower().split(' ')])
+                lst_tags.extend([tag.strip() for tag in tags.lower().split(',')])
                 lst_tags.sort()
                 book_note.tags = ','.join(tag for tag in lst_tags if tag != '')
                 return 'Tags is added'
@@ -52,11 +53,12 @@ class AddressBook(UserDict):
 
     def search_notes_by_tags(self, tags):
         tags_answer = []
-        lst_tags = tags.split(' ')
+        lst_tags = tags.split(',')
+        lst_tags = [item.lower() for item in lst_tags if item != '']
         for book_note in self.notes:
-            if set(book_note.tags.split('#')) & set(lst_tags) == set(lst_tags):
+            if set(book_note.tags.split(',')) & set(lst_tags) == set(lst_tags):
                 tags_answer.append(book_note)
-        return tags_answer
+        return tags_answer or f'Tags {tags} not found'
 
     def sort_notes_by_tags(self):
         self.notes = sorted(self.notes, key=lambda x: x.tags)
@@ -65,6 +67,7 @@ class AddressBook(UserDict):
         for book_note in self.notes:
             if book_note.note == note:
                 return book_note
+        return 'Note not found'
 
     def remove_note(self, note):
         book_note = self.search_notes_by_name(note)
@@ -279,10 +282,10 @@ class Name(Field):
     pass
 
 class Note:
-    def __init__(self, note, description = None, tags= None):
-        self.__note = None
+    def __init__(self, note, description = '', tags= ''):
+        self._note = None
         self.note = note
-        self.description = description
+        self.description = description if description else ''
         if tags:
             self.tags = ','.join((tag for tag in tags.split(' ')))
         else:
@@ -290,12 +293,12 @@ class Note:
 
     @property
     def note(self):
-        return self.__note        
+        return self._note        
 
     @note.setter
     def note(self, note):
-        self.__note = note
+        self._note = note
 
     def __repr__(self) -> str:
-        return f'{self.__note}: {self.description} ({self.tags})'
+        return f'{self._note}: {self.description} ({self.tags})'
           

@@ -1,5 +1,6 @@
 from AddressBook import AddressBook, Record, Address, Birthday
 from sort_func import sorting
+from Levenshtein import ratio
 
 addressbook = AddressBook()
 
@@ -136,8 +137,10 @@ def answer_exit():
     return 'Good bye!'
 
 @corrector
-def command_error():
-    return 'Wrong command, please try again.'
+def command_error(user_command = ''):
+    similar_answer =  {ratio(user_command, key) : key for key in COMMANDS}
+    similar_answer = sorted(similar_answer.items(), reverse=True)
+    return f'Wrong command. May be you wont to write "{similar_answer[0][1]}", please try again.'
 
 def get_answer_function(answer):
     return COMMANDS.get(answer, command_error)
@@ -178,14 +181,19 @@ def run_command(user_command):
     command = user_command
     params = ''
     for key in COMMANDS:
-        if user_command.lower().startswith(key):
+        if user_command.lower().startswith(key + ' '):
             command = key
             params = user_command[len(command):]
             break
     if params:
         return get_answer_function(command)(params.strip())
     else:
-        return get_answer_function(command)()
+        answer_function = get_answer_function(command)
+        if answer_function == command_error:
+            return answer_function(user_command)
+        else:
+            return answer_function()
+
 
 
 def main():
