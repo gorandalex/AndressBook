@@ -62,11 +62,11 @@ def add_birthdays(data):
     return f"In contact {name} successfully add birthday {birthday}"
 @corrector
 def add_addresses(data):
-    name, address = create(data)[1]
+    name, address = create(data)
     record_add_addresses = addressbook.data[name]
     record_add_addresses.add_address(address)
     return f"In contact {name} successfully add birthday {address}"
-# add_address / (data) Maria 080282 м.Київ, в.Гончара
+# add_address / (data) Maria 08021 м.Київ, в.Гончара, add_address maria 65125 м.Одеса, в.Вільямса
 
 
 
@@ -119,10 +119,11 @@ def create(data):
     data = data.strip().split()
     lst_data = [data[0]]
     if len(data) > 1:
-        for i in range(1, len(data)):
-            lst_data.append(''.join(data[i]))
-
+        lst_data.append(' '.join(data[1:]))
     return tuple(lst_data)
+
+
+
 
 @corrector
 def answer_exit():

@@ -87,7 +87,7 @@ class AddressBook(UserDict):
             pass
 
     def delete_name(self, name):  
-        if name in AddressBook:
+        if name in AddressBook.values:
             AddressBook.remove(name)
             return True
 
@@ -213,9 +213,7 @@ class Field:
 class Address(Field):
     def __init__(self, value):
         super().__init__(value)
-        self.value = value
-
-    @Field.value.setter
+        
     def value(self, value):
         self.value = self.check_address(value)
 
