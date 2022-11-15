@@ -174,7 +174,9 @@ class Record():
         self.birthday = None
         return True
 
-
+    def delete_address(self):
+        self.address = None
+        return True
 
 
     def add_address(self, address):
@@ -217,7 +219,10 @@ class Address(Field):
 
     @Field.value.setter
     def value(self, value):
-        self._value = self.check_address(value)
+        if value:
+            self._value = self.check_address(value)
+        else:
+            self._value = ''
 
     @staticmethod
     def check_address(value):

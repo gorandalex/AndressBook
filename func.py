@@ -119,6 +119,12 @@ def delete_birthday(data):
     record = addressbook.data[name]
     record.delete_birthday()
     return f'In contact {name} successfully deleted birthday '
+    
+def delete_address(data):
+    name = create(data)
+    record = addressbook.data[name]
+    record.delete_address()
+    return f'In contact {name} successfully deleted address '
 
 
 def create(data):
@@ -169,6 +175,7 @@ COMMANDS = {
     # 'replace_addres': replace_address,
     'delete_phone': delete_phone,
     'delete_email': delete_email,
+    'delete_address': delete_address,
     'sort_func': sorting,
     'close': answer_exit 
 }
