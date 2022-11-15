@@ -106,7 +106,11 @@ class Record():
        
     def __repr__(self) -> str:
         phones = ', '.join([phone.value for phone in self.phones if not phone.value is None])
-        return f'{self.name} : phones {phones}, email: {self.email}, birthday: {self.birthday}, address: {self.address}'
+        name = self.name
+        email = self.email or ''
+        birthday = self.birthday.value.strftime('%d.%m.%Y') if self.birthday else ''
+        address = self.address or ''
+        return f'{name} : phones {phones}, email: {email}, birthday: {birthday}, address: {address}'
 
     def add_phone(self, phone):
         for rec_phone in self.phones:
@@ -125,9 +129,10 @@ class Record():
     #             return True
 
     def delete_phone(self, phone):
-        phone_obj = Phone(phone)    
-        if phone_obj in self.phones:
-            self.phone.remove(phone_obj)
+         for rec_phone in self.phones:
+            if not rec_phone.value == phone:
+                continue
+            self.phones.remove(rec_phone)
             return True
     
     
@@ -148,9 +153,8 @@ class Record():
     #         return True
 
     def delete_email(self, delete_email):
-        if delete_email == self.email.value:
-            self.email = None
-            return True
+        self.email = None
+        return True
 
     def add_birthday(self, birthday):
         if self.birthday is None:
@@ -168,11 +172,9 @@ class Record():
     #             self.birthday.remove(birthday)
     #             return True
 
-    def delete_birthday(self, delete_birthday):
-        for birthday in self.birthday:
-            if birthday.value == delete_birthday:
-                self.birthday.remove(birthday)
-                return True
+    # def delete_birthday(self, delete_birthday):
+    #     self.birthday = ''
+    #     return True
 
 
 

@@ -24,8 +24,8 @@ def hello():
 
 @corrector
 def add_new_contact(data):
-    name = create(data)[0]
-    record_add = Record(name.lower())
+    name, *_ = create(data)
+    record_add = Record(name)
     addressbook.add_record(record_add)
     return f'New contact {name}'
 
@@ -109,10 +109,10 @@ def delete_phone(data):
 
 
 def delete_email(data):
-    name, old_email = create(data)
+    name, *_ = create(data)
     record = addressbook.data[name]
-    record.delete_email(old_email)
-    return f'In contact {name} successfully deleted email {old_email}'
+    record.delete_email()
+    return f'In contact {name} successfully deleted email '
 
 
 
@@ -144,7 +144,7 @@ COMMANDS = {
     'hello': hello,
     'add_name': add_new_contact,
     'add_phone': add_phones,
-    'delete': delete,
+    'delete_phone': delete,
     'add_email': add_emails,
     'add_birthday': add_birthdays,
     'add_addres': add_addresses,
