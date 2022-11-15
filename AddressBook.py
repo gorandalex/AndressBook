@@ -91,6 +91,10 @@ class AddressBook(UserDict):
         except FileNotFoundError:
             pass
 
+    def delete_name(self, name):  
+        if name in AddressBook.values:
+            AddressBook.remove(name)
+            return True
 
 class Record():
     def __init__(self, name, phone = None):
@@ -126,10 +130,7 @@ class Record():
             self.phone.remove(phone_obj)
             return True
     
-    def delete_name(self, name):
-        name_obj = Name(name)
-        if name_obj in AddressBook.data[name]:
-            AddressBook.data[name].remove(name_obj)
+    
 
 
     def add_email(self, email):
@@ -141,10 +142,10 @@ class Record():
             if you want to change tis date try "change_email | new_email"
             """)
 
-    def change_email(self, old_email, new_email):
-        if old_email == self.email.value:
-            self.email = Email(new_email)
-            return True
+    # def change_email(self, old_email, new_email):
+    #     if old_email == self.email.value:
+    #         self.email = Email(new_email)
+    #         return True
 
     def delete_email(self, delete_email):
         if delete_email == self.email.value:
@@ -152,14 +153,20 @@ class Record():
             return True
 
     def add_birthday(self, birthday):
-        self.birthday.append(Birthday(birthday))
+        if self.birthday is None:
+            self.birthday = Birthday(birthday)
+        else:
+            raise ValueError("""This contact {self.name} 
+            already have date of birthday: {self.birthday}
+            if you want to change tis date try "change_birthday | new_birthday"
+            """)
 
-    def change_birthday(self, old_birthday, new_birthday):
-        for birthday in self.birthday:
-            if birthday.value == old_birthday:
-                self.add_birthday(new_birthday)
-                self.birthday.remove(birthday)
-                return True
+    # def change_birthday(self, old_birthday, new_birthday):
+    #     for birthday in self.birthday:
+    #         if birthday.value == old_birthday:
+    #             self.add_birthday(new_birthday)
+    #             self.birthday.remove(birthday)
+    #             return True
 
     def delete_birthday(self, delete_birthday):
         for birthday in self.birthday:
@@ -171,14 +178,20 @@ class Record():
 
 
     def add_address(self, address):
-        self.address.append(Address(address))
+        if self.address is None:
+            self.address = Address(address)
+        else:
+            raise ValueError("""This contact {self.name} 
+            already have date of address: {self.address}
+            if you want to change tis date try "change_address | new_address"
+            """)
 
-    def change_address(self, old_address, new_address):
-        for address in self.address:
-            if address.value == old_address:
-                self.add_address(new_address)
-                self.address.remove(address)
-                return True
+    # def change_address(self, old_address, new_address):
+    #     for address in self.address:
+    #         if address.value == old_address:
+    #             self.add_address(new_address)
+    #             self.address.remove(address)
+    #             return True
 
     def delete_address(self, delete_address):
         for address in self.address:
@@ -282,7 +295,7 @@ class Note:
         self.note = note
         self.description = description if description else ''
         self.tags = ','.join((tag for tag in tags.split(' '))) if tags else ''
-        
+
     def __repr__(self) -> str:
         return f'{self._note}: {self.description} ({self.tags})'
           
