@@ -1,5 +1,5 @@
 from AddressBook import AddressBook, Record, Address, Birthday
-from sort_func import sorting
+from SortFunc import sorting
 from Levenshtein import ratio
 
 addressbook = AddressBook()
@@ -69,36 +69,6 @@ def add_addresses(data):
     return f"In contact {name} successfully add adress {address}"
 # add_address / (data) Maria 08021 м.Київ, в.Гончара, add_address maria 65125 м.Одеса, в.Вільямса
 
-
-
-
-# def replace_phone(data):
-#     name, old_phone, new_phone = create(data)
-#     print(name, old_phone, new_phone)
-#     record = addressbook.data[name]
-#     record.change_phone(old_phone, new_phone)
-#     return f'In contact {name} successfully changed phone {old_phone} to {new_phone}'
-
-
-# def replace_email(data):
-#     name, old_email, new_email = create(data)
-#     record = addressbook.data[name]
-#     record.change_email(old_email, new_email)
-#     return f'In contact {name} successfully changed email {old_email} to {new_email}'
-
-
-# def replace_birthday(data):
-#     name, old_birthday, new_birthday = create(data)
-#     record = addressbook.data[name]
-#     record.change_phone(old_birthday, new_birthday)
-#     return f'In contact {name} successfully changed birth date {old_birthday} to {new_birthday}'
-    
-
-# def replace_address(data):
-#     name, old_address, new_address = create(data)
-#     record = addressbook.data[name]
-#     record.change_address(old_address, new_address)
-#     return f'In contact {name} successfully changed address {old_address} to {new_address}'
     
 
 def delete_phone(data):
@@ -121,11 +91,18 @@ def delete_birthday(data):
     return f'In contact {name} successfully deleted birthday '
     
 def delete_address(data):
-    name = create(data)
+    name, *_ = create(data)
     record = addressbook.data[name]
     record.delete_address()
     return f'In contact {name} successfully deleted address '
 
+def birthday(data):
+    days, *_ = create(data)
+    if days.isdigit():
+        names = addressbook.show_birthday(int(days))
+        return f'after {days} days birthday for {names}'
+    else:
+        return 'Enter number of days'
 
 def create(data):
     data = data.strip().split()
@@ -160,7 +137,6 @@ COMMANDS = {
     'add_birthday': add_birthdays,
     'add_address': add_addresses,
     'delete_birthday': delete_birthday,
-    # 'delete_addres': command_error,
     'search_contact': addressbook.search_contact,
     'add_note': addressbook.add_note,
     'add_desc_to_note': addressbook.add_desc_to_note,
@@ -169,14 +145,11 @@ COMMANDS = {
     'add_tag_to_note': addressbook.add_tag_to_note,
     'search_note_by_tags': addressbook.search_notes_by_tags,
     'delete_note': addressbook.remove_note,
-    # 'replace_phone': replace_phone,
-    # 'replace_email': replace_email,
-    # 'replace_birthday': replace_birthday,
-    # 'replace_addres': replace_address,
     'delete_phone': delete_phone,
     'delete_email': delete_email,
     'delete_address': delete_address,
     'sort_func': sorting,
+    'birthday': birthday,
     'close': answer_exit 
 }
 

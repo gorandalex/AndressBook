@@ -1,4 +1,4 @@
-from datetime import date
+from datetime import date, datetime
 from collections import UserDict
 from re import search, match
 import pickle
@@ -96,6 +96,15 @@ class AddressBook(UserDict):
             del self.data[name]
             return True
 
+    def show_birthday(self, user_input):
+        s = []
+        for name, record in self.data.items(): 
+            if record.days_to_birthday() == user_input:
+                s.append(name)       
+            else:
+                continue
+        return ', '.join(s)
+
 class Record():
     def __init__(self, name, phone = None):
         self.name = Name(name)
@@ -121,12 +130,6 @@ class Record():
                             """)                
         self.phones.append(Phone(phone))
 
-    # def change_phone(self, old_phone, new_phone):
-    #     for phone in self.phones:
-    #         if phone.value == old_phone:
-    #             self.phones.append(Phone(new_phone))
-    #             self.phones.remove(phone)
-    #             return True
 
     def delete_phone(self, phone):
          for rec_phone in self.phones:
@@ -147,10 +150,6 @@ class Record():
             if you want to change tis date try "change_email | new_email"
             """)
 
-    # def change_email(self, old_email, new_email):
-    #     if old_email == self.email.value:
-    #         self.email = Email(new_email)
-    #         return True
 
     def delete_email(self):
         self.email = None
@@ -163,12 +162,6 @@ class Record():
         else:
             raise('Enter a birthday')
 
-    # def change_birthday(self, old_birthday, new_birthday):
-    #     for birthday in self.birthday:
-    #         if birthday.value == old_birthday:
-    #             self.add_birthday(new_birthday)
-    #             self.birthday.remove(birthday)
-    #             return True
 
     def delete_birthday(self):
         self.birthday = None
@@ -188,16 +181,22 @@ class Record():
             if you want to change tis date try "change_address | new_address"
             """)
 
-    # def change_address(self, old_address, new_address):
-    #     for address in self.address:
-    #         if address.value == old_address:
-    #             self.add_address(new_address)
-    #             self.address.remove(address)
-    #             return True
 
     def delete_address(self):
         self.address == ''
         return True   
+
+    def days_to_birthday(self):
+        if self.birthday:
+            today = datetime.now().date()
+            if self.birthday.value.replace(year=today.year) >= today:
+                result = self.birthday.value.replace(year=today.year) - today
+            else:
+                result = self.birthday.value.replace(
+                    year=today.year) - today.replace(year=today.year - 1)
+            return result.days
+        else:
+            return 'Empty'        
 
 class Field:
     def __init__(self, value):
