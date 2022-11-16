@@ -180,11 +180,7 @@ class Record():
             already have date of address: {self.address}
             if you want to change tis date try "change_address | new_address"
             """)
-
-
-    def delete_address(self):
-        self.address == ''
-        return True   
+ 
 
     def days_to_birthday(self):
         if self.birthday:
@@ -271,7 +267,7 @@ class Phone(Field):
     @Field.value.setter
     def value(self, value:str):
         if not all((value.startswith('+380'), len(value) == 13, value[1:].isdigit())):
-            raise ValueError("""Phone number {value} is not valid, 
+            raise ValueError(f"""Phone number {value} is not valid, 
             please enter correcct phone '+380XXXXXXX'""")
         self._value = value
 
@@ -283,7 +279,7 @@ class Email(Field):
     def value(self, value:str):
         regex = r'\b[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Z|a-z]{2,}\b'
         if not (match(regex, value)):
-            raise ValueError(""""Email {value} is not valid,
+            raise ValueError(f""""Email {value} is not valid,
             please enter correct email.
             Example of emails: my.ownsite@our-earth.org
                                 ankitrai326@gmail.com""")
