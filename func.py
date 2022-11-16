@@ -186,7 +186,7 @@ def main():
         print(answer)
         if answer == 'Good bye!':
             break
-        addressbook.save_to_file('AddressBook.dat')
+    addressbook.save_to_file('AddressBook.dat')
 
 if __name__ == '__main__':
     main()
