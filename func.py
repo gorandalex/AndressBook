@@ -1,8 +1,12 @@
 from AddressBook import AddressBook, Record, Address, Birthday
 from SortFunc import sorting
 from Levenshtein import ratio
+import os
 
-addressbook = AddressBook()
+if os.path.exists(os.path.join(os.path.dirname('.'), 'AddressBook.dat')):
+    addressbook = AddressBook.read_from_file('AddressBook.dat')
+else:
+    addressbook = AddressBook()
 
 def corrector(handler):
     def wrapper(*args, **kwargs):
@@ -182,6 +186,7 @@ def main():
         print(answer)
         if answer == 'Good bye!':
             break
+        addressbook.save_to_file('AddressBook.dat')
 
 if __name__ == '__main__':
     main()

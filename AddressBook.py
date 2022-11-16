@@ -79,17 +79,15 @@ class AddressBook(UserDict):
         else:
             return 'Note not found'
 
-    def write_contacts_to_file(self):
-        with open('data_notebook.txt', 'wb') as file:
-            pickle.dump(self.data, file)
+    def save_to_file(self, filename):
+        with open(filename, "wb") as file:
+            pickle.dump(self, file)
 
-    def read_contacts_from_file(self):
-        try:
-            with open('data_notebook.txt', 'rb') as file:
-                contacts_archive = pickle.load(file)
-                return contacts_archive
-        except FileNotFoundError:
-            pass
+    @classmethod
+    def read_from_file(cls, filename):
+        with open(filename, "rb") as file:
+            content = pickle.load(file)
+        return content
 
     def delete_name(self, name):  
         if name in self.data:
